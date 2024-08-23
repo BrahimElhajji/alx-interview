@@ -1,7 +1,12 @@
 #!/usr/bin/pythoni3
 """ UTF-8 Validation """
 
+
 def validUTF8(data):
+    """method validUTF8 takes a list of integers (data) as input
+    and returns True if the integers represent a
+    valid UTF-8 encoded string; otherwise, it returns False"""
+
     num_bytes = 0
 
     mask1 = 1 << 7

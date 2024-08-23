@@ -1,4 +1,4 @@
-#!/usr/bin/pythoni3
+#!/usr/bin/python3
 """ UTF-8 Validation """
 
 

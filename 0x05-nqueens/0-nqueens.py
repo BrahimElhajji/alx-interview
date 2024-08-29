@@ -19,7 +19,7 @@ def solve_nqueens(N):
     """Solve the N Queens problem using backtracking."""
     def backtrack(row, current_solution):
         if row == N:
-            print(current_solution)
+            print([[i, current_solution[i]] for i in range(N)])
             return
 
         for col in range(N):

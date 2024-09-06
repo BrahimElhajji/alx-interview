@@ -1,28 +1,28 @@
 #!/usr/bin/node
+const request = require('request');
+const { argv } = require('process');
 
-const request = require('request-promise-native');
-const movieId = process.argv[2];
-const apiUrl = `https://swapi.dev/api/films/${movieId}/`;
+const url = 'https://swapi-api.hbtn.io/api/films/' + argv[2];
 
-if (!movieId) {
-  console.log('Usage: ./0-starwars_characters.js <movieId>');
-  process.exit(1);
-}
-
-async function getCharacters() {
-  try {
-    const response = await request(apiUrl);
-    const data = JSON.parse(response);
-    const characters = data.characters;
-
-    for (const characterUrl of characters) {
-      const characterResponse = await request(characterUrl);
-      const characterData = JSON.parse(characterResponse);
-      console.log(characterData.name);
+request(url, async (error, response, body) => {
+  if (error) {
+    console.log(error);
+  } else {
+    for (const value of JSON.parse(body).characters) {
+      const res = await Makerequest(value);
+      console.log(res);
     }
-  } catch (error) {
-    console.error(error);
   }
-}
+});
 
-getCharacters();
+function Makerequest (url) {
+  return new Promise((resolve, reject) => {
+    request(url, (err, response, body) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(JSON.parse(body).name);
+      }
+    });
+  });
+}

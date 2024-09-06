@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const request = require('request');
+const request = require('request-promise-native');
 const movieId = process.argv[2];
 const apiUrl = `https://swapi.dev/api/films/${movieId}/`;
 
@@ -9,37 +9,20 @@ if (!movieId) {
   process.exit(1);
 }
 
-request(apiUrl, (error, response, body) => {
-  if (error) {
+async function getCharacters() {
+  try {
+    const response = await request(apiUrl);
+    const data = JSON.parse(response);
+    const characters = data.characters;
+
+    for (const characterUrl of characters) {
+      const characterResponse = await request(characterUrl);
+      const characterData = JSON.parse(characterResponse);
+      console.log(characterData.name);
+    }
+  } catch (error) {
     console.error(error);
-    return;
   }
-  const data = JSON.parse(body);
-  const characters = data.characters;
+}
 
-  const fetchCharacter = (url, callback) => {
-    request(url, (error, response, body) => {
-      if (error) {
-        callback(error);
-        return;
-      }
-      const character = JSON.parse(body);
-      callback(null, character.name);
-    });
-  };
-
-  let count = 0;
-  characters.forEach((url) => {
-    fetchCharacter(url, (error, name) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-      console.log(name);
-      count++;
-      if (count === characters.length) {
-        process.exit(0);
-      }
-    });
-  });
-});
+getCharacters();

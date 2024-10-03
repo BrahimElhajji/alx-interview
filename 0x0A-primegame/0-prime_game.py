@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Prime Game"""
 
+
 def sieve_of_eratosthenes(n):
     """Use Sieve of Eratosthenes to find all primes up to n."""
     primes = [True] * (n + 1)
@@ -11,6 +12,7 @@ def sieve_of_eratosthenes(n):
                 primes[multiple] = False
     return primes
 
+
 def prime_count_up_to(n, primes):
     """Count how many primes are less than or equal to n."""
     count = 0
@@ -18,6 +20,7 @@ def prime_count_up_to(n, primes):
         if primes[i]:
             count += 1
     return count
+
 
 def isWinner(x, nums):
     """Determine the winner of the game after x rounds."""
